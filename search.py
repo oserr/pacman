@@ -86,7 +86,7 @@ def depthFirstSearch(problem):
     print "Is the start a goal?", problem.isGoalState(problem.getStartState())
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
-    util.raiseNotDefined()
+    return search(problem, util.Stack())
 
 
 def breadthFirstSearch(problem):
@@ -116,6 +116,36 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     "Search the node that has the lowest combined cost and heuristic first."
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
+
+
+class Node:
+    def __init__(self, state, action_cost):
+        self.state = state
+        self.action_cost = action_cost
+    def cost(self):
+        return sum(c for _, c in self.action_cost)
+    def actions(self):
+        return [a for a, _ in self.action_cost]
+
+
+def search(problem, strategy):
+    node = Node(problem.getStartState(), [])
+    explored, frontier = set(), set()
+    frontier.add(node.state)
+    strategy.push(node)
+    while not strategy.isEmpty():
+        node = strategy.pop()
+        if problem.isGoalState(node.state):
+            return node.actions()
+        explored.add(node.state)
+        frontier.discard(node.state)
+        for s, a, c in problem.getSuccessors(node.state):
+            if s not in explored and s not in frontier:
+                frontier.add(s)
+                child = Node(s, node.action_cost+[(a, c)])
+                strategy.push(child)
+    return []
+
 
 
 # Abbreviations
