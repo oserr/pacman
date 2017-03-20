@@ -94,14 +94,31 @@ def breadthFirstSearch(problem):
     Search the shallowest nodes in the search tree first.
     [2nd Edition: p 73, 3rd Edition: p 82]
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    return search(problem, util.Queue())
 
 
 def uniformCostSearch(problem):
     "Search the node of least total cost first. "
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    node = Node(problem.getStartState(), [], 0)
+    explored, frontier = set(), dict()
+    frontier[node.state] = node.cost
+    p_queue = util.PriorityQueue()
+    p_queue.push(node, node.cost)
+    while not p_queue.isEmpty():
+        node = p_queue.pop()
+        if problem.isGoalState(node.state):
+            return node.actions
+        explored.add(node.state)
+        frontier.pop(node.state)
+        for s, a, c in problem.getSuccessors(node.state):
+            child = Node(s, node.actions+[a], node.cost+c)
+            if s not in explored and s not in frontier:
+                frontier[s] = child.cost
+                p_queue.push(child, child.cost)
+            elif s in frontier and child.cost < frontier[s]:
+                frontier[s] = child.cost
+                p_queue.push(child, child.cost)
+    return []
 
 
 def nullHeuristic(state, problem=None):
@@ -119,30 +136,27 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 
 
 class Node:
-    def __init__(self, state, action_cost):
+    def __init__(self, state, actions, cost):
         self.state = state
-        self.action_cost = action_cost
-    def cost(self):
-        return sum(c for _, c in self.action_cost)
-    def actions(self):
-        return [a for a, _ in self.action_cost]
+        self.actions = actions
+        self.cost = cost
 
 
 def search(problem, strategy):
-    node = Node(problem.getStartState(), [])
+    node = Node(problem.getStartState(), [], 0)
     explored, frontier = set(), set()
     frontier.add(node.state)
     strategy.push(node)
     while not strategy.isEmpty():
         node = strategy.pop()
         if problem.isGoalState(node.state):
-            return node.actions()
+            return node.actions
         explored.add(node.state)
         frontier.discard(node.state)
         for s, a, c in problem.getSuccessors(node.state):
             if s not in explored and s not in frontier:
                 frontier.add(s)
-                child = Node(s, node.action_cost+[(a, c)])
+                child = Node(s, node.actions+[a], node.cost+c)
                 strategy.push(child)
     return []
 
