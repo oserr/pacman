@@ -1,0 +1,5 @@
+# Ignore vim backup files
+*.swp
+
+# Ignore compiled python files
+*.pyc
