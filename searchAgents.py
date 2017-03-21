@@ -28,6 +28,7 @@ project description for details.
 
 Good luck and happy searching!
 """
+import math
 from game import Directions
 from game import Agent
 from game import Actions
@@ -343,11 +344,24 @@ def cornersHeuristic(state, problem):
   on the shortest path from the state to a goal of the problem; i.e.
   it should be admissible (as well as consistent).
   """
-  corners = problem.corners # These are the corner coordinates
+  corners = problem.corners_set # These are the corner coordinates
   walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
+  location = state[-1]
+  need_visit = corners - set(state)
+  if not need_visit:
+    return 0
+  total_distance = 0
+  for _, p in sorted([(compute_distance(location, p), p) for p in need_visit]):
+    total_distance += compute_distance(location, p)
+    location = p
+  return total_distance
 
-  "*** YOUR CODE HERE ***"
-  return 0 # Default to trivial solution
+
+def compute_distance(a, b):
+    """Computes the distance between two points in the (x,y) plane."""
+    x_part = (a[0] - b[0])**2
+    y_part = (a[1] - b[1])**2
+    return math.sqrt(x_part + y_part)
 
 class AStarCornersAgent(SearchAgent):
   "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
