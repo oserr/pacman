@@ -256,35 +256,6 @@ def euclideanHeuristic(position, problem, info={}):
 # This portion is incomplete.  Time to write code!  #
 #####################################################
 
-class CornersNode:
-    """Defines a representations for the state of a CornersProblem."""
-
-    def __init__(self, state):
-        """Initializes the node with the state, a tuple of pairs."""
-        self.state = state
-
-    def __eq__(self, node):
-        """Returns true if the nodes contain the same combination of pairs."""
-        return isinstance(other, self.__class__) and self.values == other.values
-
-    def __ne__(self, node):
-        """Returns false if the nodes don't contain the same combination of
-        pairs.
-        """
-        return not self == other
-
-    def __hash__(self):
-        """Computes the hash of this node by computing the hash of the sorted
-        tuple of pairs making up the state.
-        """
-        return hash(tuple(sorted(self.state)))
-
-    @property
-    def values(self):
-        """Returns the set of pairs in the state."""
-        return set(self.state)
-
-
 class CornersProblem(search.SearchProblem):
   """
   This search problem finds paths through all four corners of a layout.
@@ -312,7 +283,7 @@ class CornersProblem(search.SearchProblem):
 
   def isGoalState(self, state):
     "Returns whether this search state is a goal state of the problem"
-    return {p for p in state} == self.corners_set
+    return self.corners_set == set(state)
 
   def getSuccessors(self, state):
     """
