@@ -296,17 +296,21 @@ class CornersProblem(search.SearchProblem):
      required to get there, and 'stepCost' is the incremental
      cost of expanding to that successor
     """
+    x, y = state[-1]
+    if (x, y) in self.corners:
+      state_list = list(state)
+    else:
+      state_list = list(state)[:-1]
 
     successors = []
     for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
       # Add a successor state to the successor list if the action is legal
-      # Here's a code snippet for figuring out whether a new position hits a wall:
-      #   x,y = currentPosition
-      #   dx, dy = Actions.directionToVector(action)
-      #   nextx, nexty = int(x + dx), int(y + dy)
-      #   hitsWall = self.walls[nextx][nexty]
-
-      "*** YOUR CODE HERE ***"
+      dx, dy = Actions.directionToVector(action)
+      nextx, nexty = int(x + dx), int(y + dy)
+      if self.walls[nextx][nexty]:
+        continue
+      next_state = tuple(state_list+[(nextx, nexty)])
+      successors.append(next_state)
 
     self._expanded += 1
     return successors
