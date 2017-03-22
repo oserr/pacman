@@ -117,7 +117,7 @@ class CostNode:
         return node.fcost == self.fcost
 
 
-def cost_search(problem, strategy, heuristic=lambda x,y: 0):
+def cost_search(problem, heuristic=lambda x,y: 0):
     """A generic search algorithm that can be used by UCS or a-star."""
     s = problem.getStartState()
     node = CostNode(s, [], 0, heuristic(s, problem))
