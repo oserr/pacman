@@ -82,6 +82,24 @@ class Node:
     def __eq__(self, node):
         return node.state == self.state
 
+
+def search(problem, strategy):
+    """A generic search algorithm that can be used by DFS and BFS."""
+    node = Node(problem.getStartState(), [])
+    explored = set()
+    strategy.push(node)
+    while strategy:
+        node = strategy.pop()
+        if problem.isGoalState(node.state):
+            return node.actions
+        explored.add(node.state)
+        for s, a, c in problem.getSuccessors(node.state):
+            child = Node(s, node.actions+[a])
+            if s not in explored and child not in strategy:
+                strategy.push(child)
+    return []
+
+
 class CostNode:
     """Defines a simple search node that tracks the cost of the search path."""
 
@@ -99,20 +117,28 @@ class CostNode:
         return node.fcost == self.fcost
 
 
-def search(problem, strategy):
-    """A generic search algorithm that can be used by DFS and BFS."""
-    node = Node(problem.getStartState(), [])
+def cost_search(problem, strategy, heuristic=lambda x,y: 0):
+    """A generic search algorithm that can be used by UCS or a-star."""
+    s = problem.getStartState()
+    node = CostNode(s, [], 0, heuristic(s, problem))
     explored = set()
-    strategy.push(node)
-    while strategy:
-        node = strategy.pop()
+    pqueue = util.PQueue()
+    pqueue.push(node)
+    while pqueue:
+        node = pqueue.pop()
         if problem.isGoalState(node.state):
             return node.actions
         explored.add(node.state)
         for s, a, c in problem.getSuccessors(node.state):
-            child = Node(s, node.actions+[a])
-            if s not in explored and child not in strategy:
-                strategy.push(child)
+            hcost = heuristic(s, problem)
+            gcost = node.gcost + c
+            child = CostNode(s, node.actions+[a], gcost, hcost)
+            if s not in explored and child not in pqueue:
+                pqueue.push(child)
+            elif child in pqueue:
+                old_node = pqueue.get(child)
+                if child.gcost < old_node.gcost:
+                    pqueue.udpate(child)
     return []
 
 
