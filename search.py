@@ -70,6 +70,39 @@ def tinyMazeSearch(problem):
     return  [s,s,w,s,w,w,s,w]
 
 
+class Node:
+    """Defines a simple search node that does not track the cost of
+    the current search path.
+    """
+
+    def __init__(self, state, actions):
+        self.state = state
+        self.actions = actions
+
+    def __eq__(self, node):
+        return node.state == self.state
+
+
+def search(problem, strategy):
+    """A generic search algorithm that can be used by DFS and BFS."""
+    node = Node(problem.getStartState(), [])
+    explored, frontier = set(), set()
+    frontier.add(node.state)
+    strategy.push(node)
+    while not strategy.isEmpty():
+        node = strategy.pop()
+        if problem.isGoalState(node.state):
+            return node.actions
+        explored.add(node.state)
+        frontier.discard(node.state)
+        for s, a, c in problem.getSuccessors(node.state):
+            if s not in explored and s not in frontier:
+                frontier.add(s)
+                child = Node(s, node.actions+[a])
+                strategy.push(child)
+    return []
+
+
 def depthFirstSearch(problem):
     """
     Search the deepest nodes in the search tree first
@@ -154,33 +187,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                 h_score = heuristic(child.state, problem)
                 p_queue.push(child, child.cost+h_score)
     return []
-
-
-class Node:
-    def __init__(self, state, actions, cost):
-        self.state = state
-        self.actions = actions
-        self.cost = cost
-
-
-def search(problem, strategy):
-    node = Node(problem.getStartState(), [], 0)
-    explored, frontier = set(), set()
-    frontier.add(node.state)
-    strategy.push(node)
-    while not strategy.isEmpty():
-        node = strategy.pop()
-        if problem.isGoalState(node.state):
-            return node.actions
-        explored.add(node.state)
-        frontier.discard(node.state)
-        for s, a, c in problem.getSuccessors(node.state):
-            if s not in explored and s not in frontier:
-                frontier.add(s)
-                child = Node(s, node.actions+[a], node.cost+c)
-                strategy.push(child)
-    return []
-
 
 
 # Abbreviations
