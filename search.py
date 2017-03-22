@@ -82,6 +82,22 @@ class Node:
     def __eq__(self, node):
         return node.state == self.state
 
+class CostNode:
+    """Defines a simple search node that tracks the cost of the search path."""
+
+    def __init__(self, state, actions, gcost, hcost=0):
+        self.state = state
+        self.actions = actions
+        self.gcost = gcost
+        self.hcost = hcost
+        self.fcost = gcost + hcost
+
+    def __eq__(self, node):
+        return node.state == self.state
+
+    def __le__(self, node):
+        return node.fcost == self.fcost
+
 
 def search(problem, strategy):
     """A generic search algorithm that can be used by DFS and BFS."""
