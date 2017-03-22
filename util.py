@@ -18,39 +18,47 @@ import heapq, random
 class Stack:
   "A container with a last-in-first-out (LIFO) queuing policy."
   def __init__(self):
-    self.list = []
+    self.items = []
+
+  def __contains__(self, item):
+    return item in self.items
 
   def push(self,item):
     "Push 'item' onto the stack"
-    self.list.append(item)
+    self.items.append(item)
 
   def pop(self):
     "Pop the most recently pushed item from the stack"
-    return self.list.pop()
+    return self.items.pop()
 
-  def isEmpty(self):
-    "Returns true if the stack is empty"
-    return len(self.list) == 0
+  def __len__(self):
+    "Returns the size of the stack"
+    return len(self.items)
+
 
 class Queue:
   "A container with a first-in-first-out (FIFO) queuing policy."
   def __init__(self):
-    self.list = []
+    self.items = []
+
+  def __contains__(self, item):
+    return item in self.items
 
   def push(self,item):
     "Enqueue the 'item' into the queue"
-    self.list.insert(0,item)
+    self.items.insert(0,item)
 
   def pop(self):
     """
       Dequeue the earliest enqueued item still in the queue. This
       operation removes the item from the queue.
     """
-    return self.list.pop()
+    return self.items.pop()
 
-  def isEmpty(self):
-    "Returns true if the queue is empty"
-    return len(self.list) == 0
+  def __len__(self):
+    "Returns the size of the queue"
+    return len(self.items)
+
 
 class PriorityQueue:
   """
