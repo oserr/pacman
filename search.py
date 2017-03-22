@@ -86,18 +86,15 @@ class Node:
 def search(problem, strategy):
     """A generic search algorithm that can be used by DFS and BFS."""
     node = Node(problem.getStartState(), [])
-    explored, frontier = set(), set()
+    explored = set()
     frontier.add(node.state)
-    strategy.push(node)
-    while not strategy.isEmpty():
+    while strategy:
         node = strategy.pop()
         if problem.isGoalState(node.state):
             return node.actions
         explored.add(node.state)
-        frontier.discard(node.state)
         for s, a, c in problem.getSuccessors(node.state):
-            if s not in explored and s not in frontier:
-                frontier.add(s)
+            if s not in explored and s not in strategy:
                 child = Node(s, node.actions+[a])
                 strategy.push(child)
     return []
