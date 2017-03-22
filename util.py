@@ -77,6 +77,41 @@ class PriorityQueue:
   def isEmpty(self):
     return len(self.heap) == 0
 
+class PQueue:
+  """
+    Implements a priority queue data structure. Each inserted item
+    has a priority associated with it and the client is usually interested
+    in quick retrieval of the lowest-priority item in the queue. This
+    data structure allows O(1) access to the lowest-priority item.
+  """
+  def  __init__(self):
+    self.heap = []
+
+  def __contain__(self, item):
+    return item in self.heap
+
+  def __len__(self):
+    return len(self.heap)
+
+  def push(self, item):
+    heapq.heappush(self.heap, item)
+
+  def pop(self):
+    return heapq.heappop(self.heap)
+
+  def update(self, item):
+    index = self.heap.index(item)
+    if index >= 0:
+        self.heap[index] = item
+        heapq.heapify(self.heap)
+
+  def get(self, item):
+    index = self.heap.index(item)
+    if index < 0:
+        raise ValueError('%r not found in this PQueue' % item)
+    return self.heap[index]
+
+
 class PriorityQueueWithFunction(PriorityQueue):
   """
   Implements a priority queue with the same push/pop signature of the
