@@ -114,7 +114,7 @@ class CostNode:
         return node.state == self.state
 
     def __le__(self, node):
-        return node.fcost == self.fcost
+        return node.fcost < self.fcost
 
 
 def cost_search(problem, heuristic=lambda x,y: 0):
@@ -130,9 +130,10 @@ def cost_search(problem, heuristic=lambda x,y: 0):
             return node.actions
         explored.add(node.state)
         for s, a, c in problem.getSuccessors(node.state):
-            hcost = heuristic(s, problem)
+            actions = node.actions + [a]
             gcost = node.gcost + c
-            child = CostNode(s, node.actions+[a], gcost, hcost)
+            hcost = heuristic(s, problem)
+            child = CostNode(s, actions, gcost, hcost)
             if s not in explored and child not in pqueue:
                 pqueue.push(child)
             elif child in pqueue:
@@ -171,26 +172,7 @@ def breadthFirstSearch(problem):
 
 def uniformCostSearch(problem):
     "Search the node of least total cost first. "
-    node = Node(problem.getStartState(), [], 0)
-    explored, frontier = set(), dict()
-    frontier[node.state] = node.cost
-    p_queue = util.PriorityQueue()
-    p_queue.push(node, node.cost)
-    while not p_queue.isEmpty():
-        node = p_queue.pop()
-        if problem.isGoalState(node.state):
-            return node.actions
-        explored.add(node.state)
-        frontier.pop(node.state)
-        for s, a, c in problem.getSuccessors(node.state):
-            child = Node(s, node.actions+[a], node.cost+c)
-            if s not in explored and s not in frontier:
-                frontier[s] = child.cost
-                p_queue.push(child, child.cost)
-            elif s in frontier and child.cost < frontier[s]:
-                frontier[s] = child.cost
-                p_queue.push(child, child.cost)
-    return []
+    return cost_search(problem)
 
 
 def nullHeuristic(state, problem=None):

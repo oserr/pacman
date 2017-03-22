@@ -85,6 +85,7 @@ class PriorityQueue:
   def isEmpty(self):
     return len(self.heap) == 0
 
+
 class PQueue:
   """
     Implements a priority queue data structure. Each inserted item
@@ -95,7 +96,7 @@ class PQueue:
   def  __init__(self):
     self.heap = []
 
-  def __contain__(self, item):
+  def __contains__(self, item):
     return item in self.heap
 
   def __len__(self):
