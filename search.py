@@ -114,7 +114,16 @@ class CostNode:
         return node.state == self.state
 
     def __le__(self, node):
+        return node.fcost <= self.fcost
+
+    def __lt__(self, node):
         return node.fcost < self.fcost
+
+    def __ge__(self, node):
+        return node.fcost >= self.fcost
+
+    def __gt__(self, node):
+        return node.fcost > self.fcost
 
 
 def cost_search(problem, heuristic=lambda x,y: 0):
