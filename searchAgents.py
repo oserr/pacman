@@ -377,8 +377,8 @@ def compute_blocked_distance(a, b, walls):
     x = b[0] - a[0]
     y = b[1] - a[1]
     md = util.manhattanDistance(a, b)
-    mdxy = compute_wall_hits_xy(x, y, a, b, walls)
-    mdyx = compute_wall_hits_yx(x, y, a, b, walls)
+    mdxy = md + compute_wall_hits_xy(x, y, a, b, walls)
+    mdyx = md + compute_wall_hits_yx(x, y, a, b, walls)
     return min(mdxy, mdyx)
 
 
@@ -395,7 +395,23 @@ def compute_wall_hits_xy(x, y, a, b, walls):
     for i in range(*y_points):
         if walls[b[0][i]:
             total_hits += 1
-    return
+    return total_hits
+
+
+def compute_wall_hits_yx(x, y, a, b, walls):
+    """Computes the number of walls across the path from a to b going first in
+    the x-direction and then in the y direction.
+    """
+    total_hits = 0
+    x_points = (1, x+1) if (x > 0) else (x, 0)
+    y_points = (1, y+1) if (y > 0) else (y, 0)
+    for i in range(*y_points):
+        if walls[a[0]][i]:
+            total_hits += 1
+    for i in range(*x_points):
+        if walls[i][b[1]]:
+            total_hits += 1
+    return total_hits
 
 
 class AStarCornersAgent(SearchAgent):
