@@ -268,6 +268,7 @@ def removeCorner(location, corners):
         list_corners.remove(location)
         return (location, tuple(list_corners))
 
+
 class CornersProblem(search.SearchProblem):
   """
   This search problem finds paths through all four corners of a layout.
@@ -283,7 +284,6 @@ class CornersProblem(search.SearchProblem):
     self.startingPosition = startingGameState.getPacmanPosition()
     top, right = self.walls.height-2, self.walls.width-2
     self.corners = ((1,1), (1,top), (right, 1), (right, top))
-    self.corners_set = {c for c in self.corners}
     for corner in self.corners:
       if not startingGameState.hasFood(*corner):
         print 'Warning: no food in corner ' + str(corner)
@@ -352,14 +352,12 @@ def cornersHeuristic(state, problem):
   on the shortest path from the state to a goal of the problem; i.e.
   it should be admissible (as well as consistent).
   """
-  corners = problem.corners_set # These are the corner coordinates
   walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
-  location = state[-1]
-  need_visit = corners - set(state)
-  if not need_visit:
+  location, corners = state
+  if not corners:
     return 0
   total_distance = 0
-  for _, p in sorted([(compute_distance(location, p), p) for p in need_visit]):
+  for _, p in sorted([(util.manhattanDistance(location, p), p) for p in corners]):
     total_distance += compute_distance(location, p)
     location = p
   return total_distance
@@ -370,6 +368,18 @@ def compute_distance(a, b):
     x_part = (a[0] - b[0])**2
     y_part = (a[1] - b[1])**2
     return math.sqrt(x_part + y_part)
+
+
+def compute_blocked_distance(a, b, walls):
+    """Computes the manhattan distance between two points in the (x,y) plane,
+    adding one unit for each wall in the path.
+    """
+    x = a[0] - b[0]
+    y = a[1] - b[1]
+    md = util.manhattanDistance(a, b)
+    mdxy = compute_wall_hits_xy(x, y, a, b, walls)
+    mdyx = compute_wall_hits_yx(x, y, a, b, walls)
+    return min(mdxy, mdyx)
 
 class AStarCornersAgent(SearchAgent):
   "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
