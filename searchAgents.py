@@ -357,8 +357,8 @@ def cornersHeuristic(state, problem):
   if not corners:
     return 0
   total_distance = 0
-  for _, p in sorted([(util.manhattanDistance(location, p), p) for p in corners]):
-    total_distance += compute_distance(location, p)
+  for _, p in sorted([(compute_blocked_distance(location, p, walls), p) for p in corners]):
+    total_distance += compute_blocked_distance(location, p, walls)
     location = p
   return total_distance
 
@@ -393,7 +393,7 @@ def compute_wall_hits_xy(x, y, a, b, walls):
         if walls[i][a[1]]:
             total_hits += 1
     for i in range(*y_points):
-        if walls[b[0][i]:
+        if walls[b[0]][i]:
             total_hits += 1
     return total_hits
 
