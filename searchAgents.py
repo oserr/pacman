@@ -257,6 +257,17 @@ def euclideanHeuristic(position, problem, info={}):
 # This portion is incomplete.  Time to write code!  #
 #####################################################
 
+def removeCorner(location, corners):
+    """If the current location is a corner, then it removes the corner from the
+    set of corners.
+    """
+    if location not in corners:
+        return (location, corners)
+    else:
+        list_corners = list(corners)
+        list_corners.remove(location)
+        return (location, tuple(list_corners))
+
 class CornersProblem(search.SearchProblem):
   """
   This search problem finds paths through all four corners of a layout.
@@ -280,11 +291,11 @@ class CornersProblem(search.SearchProblem):
 
   def getStartState(self):
     "Returns the start state (in your state space, not the full Pacman state space)"
-    return (self.startingPosition,)
+    return removeCorner(self.startingPosition, self.corners)
 
   def isGoalState(self, state):
     "Returns whether this search state is a goal state of the problem"
-    return self.corners_set == set(state)
+    return not state[1]
 
   def getSuccessors(self, state):
     """
@@ -297,11 +308,8 @@ class CornersProblem(search.SearchProblem):
      required to get there, and 'stepCost' is the incremental
      cost of expanding to that successor
     """
-    x, y = state[-1]
-    if (x, y) in self.corners:
-      state_list = list(state)
-    else:
-      state_list = list(state)[:-1]
+    x, y = state[0]
+    corners = state[1]
 
     successors = []
     for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
@@ -310,7 +318,7 @@ class CornersProblem(search.SearchProblem):
       nextx, nexty = int(x + dx), int(y + dy)
       if self.walls[nextx][nexty]:
         continue
-      next_state = tuple(state_list+[(nextx, nexty)])
+      next_state = removeCorner((nextx, nexty), corners)
       next_successor = (next_state, action, 1)
       successors.append(next_successor)
 
