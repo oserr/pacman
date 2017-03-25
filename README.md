@@ -54,19 +54,19 @@
   <tr><td><code><a href="docs/graphicsDisplay.html">graphicsDisplay.py</a></code></td>
   <td>Graphics for Pacman</td></tr>
     
-    <tr><td><code><a href="docs/graphicsUtils.html">graphicsUtils.py</a></code></td>
+  <tr><td><code><a href="docs/graphicsUtils.html">graphicsUtils.py</a></code></td>
   <td>Support for Pacman graphics</td></tr>
 
   <tr><td><code><a href="docs/textDisplay.html">textDisplay.py</a></code></td>
   <td>ASCII graphics for Pacman</td></tr>  
 
-    <tr><td><code><a href="docs/ghostAgents.html">ghostAgents.py</a></code></td>
+  <tr><td><code><a href="docs/ghostAgents.html">ghostAgents.py</a></code></td>
   <td>Agents to control ghosts</td></tr>
 
-    <tr><td><code><a href="docs/keyboardAgents.html">keyboardAgents.py</a></code></td>
+  <tr><td><code><a href="docs/keyboardAgents.html">keyboardAgents.py</a></code></td>
   <td>Keyboard interfaces to control Pacman</td></tr>
 
-    <tr><td><code><a href="docs/layout.html">layout.py</a></code></td>
+  <tr><td><code><a href="docs/layout.html">layout.py</a></code></td>
   <td>Code for reading layout files and storing their contents</td></tr>
 
 </table>
@@ -278,20 +278,20 @@ We will time your agent using the no graphics option <code>-q</code>, and it mus
 
 <p> Here's a glossary of the key objects in the code base related to search problems, for your reference:
 
-    <dl>
-      <dt><code>SearchProblem (search.py)</code></dt>
-      <dd>A SearchProblem is an abstract object that represents the state space, successor function, costs, and goal state of a problem.  You will interact with any SearchProblem only through the methods defined at the top of <code><a href="docs/search.html">search.py</a></code></dd>
-      <dt><code>PositionSearchProblem (searchAgents.py)</code></dt>
-      <dd>A specific type of SearchProblem that you will be working with --- it corresponds to searching for a single pellet in a maze.  </dd>
-      <dt><code>CornersProblem (searchAgents.py)</code></dt>
-      <dd>A specific type of SearchProblem that you will define --- it corresponds to searching for a path through all four corners of a maze.  </dd>
-      <dt><code>FoodSearchProblem (searchAgents.py)</code></dt>
-      <dd>A specific type of SearchProblem that you will be working with --- it corresponds to searching for a way to eat all the pellets in a maze.  </dd>
-      <dt>Search Function</dt>
-      <dd>A search function is a function which takes an instance of SearchProblem as a parameter, runs some algorithm, and returns a sequence of actions that lead to a goal.  Example of search functions are <code>depthFirstSearch</code> and <code>breadthFirstSearch</code>, which you have to write.  You are provided <code>tinyMazeSearch</code> which is a very bad search function that only works correctly on <code>tinyMaze</code>
-      <dt><code>SearchAgent</code></dt>
-      <dd><code>SearchAgent</code> is a class which implements an Agent (an object that interacts with the world) and does its planning through a search function.  The <code>SearchAgent</code> first uses the search function provided to make a plan of actions to take to reach the goal state, and then executes the actions one at a time.</dd>
-    </dl>
+<dl>
+  <dt><code>SearchProblem (search.py)</code></dt>
+  <dd>A SearchProblem is an abstract object that represents the state space, successor function, costs, and goal state of a problem.  You will interact with any SearchProblem only through the methods defined at the top of <code><a href="docs/search.html">search.py</a></code></dd>
+  <dt><code>PositionSearchProblem (searchAgents.py)</code></dt>
+  <dd>A specific type of SearchProblem that you will be working with --- it corresponds to searching for a single pellet in a maze.  </dd>
+  <dt><code>CornersProblem (searchAgents.py)</code></dt>
+  <dd>A specific type of SearchProblem that you will define --- it corresponds to searching for a path through all four corners of a maze.  </dd>
+  <dt><code>FoodSearchProblem (searchAgents.py)</code></dt>
+  <dd>A specific type of SearchProblem that you will be working with --- it corresponds to searching for a way to eat all the pellets in a maze.  </dd>
+  <dt>Search Function</dt>
+  <dd>A search function is a function which takes an instance of SearchProblem as a parameter, runs some algorithm, and returns a sequence of actions that lead to a goal.  Example of search functions are <code>depthFirstSearch</code> and <code>breadthFirstSearch</code>, which you have to write.  You are provided <code>tinyMazeSearch</code> which is a very bad search function that only works correctly on <code>tinyMaze</code>
+  <dt><code>SearchAgent</code></dt>
+  <dd><code>SearchAgent</code> is a class which implements an Agent (an object that interacts with the world) and does its planning through a search function.  The <code>SearchAgent</code> first uses the search function provided to make a plan of actions to take to reach the goal state, and then executes the actions one at a time.</dd>
+</dl>
 
 </body>
 </html>
