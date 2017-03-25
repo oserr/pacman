@@ -9,8 +9,8 @@ The code for this project consists of several Python files, some of which you wi
 
 #### Files you'll edit
 
-| *search.py* | Where all of your search algorithms will reside. |
-| *searchAgents.py* | Where all of your search-based agents will reside. |
+* *search.py* Where all of your search algorithms will reside.
+* *searchAgents.py* Where all of your search-based agents will reside.
 
 #### Files you might want to look at
 
